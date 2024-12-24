@@ -78,8 +78,19 @@ location.replace("/");
   <span style="float: left;" id="name"></span>
 </div><br id="home"><br><br>
 
-<iframe src="/paper/paper.pdf#toolbar=0" width="100%" height="screen.height - 150"></iframe>
+<iframe id="paperframe" src="/paper/paper.pdf#toolbar=0" width="100%"></iframe>
+<script>
+  function setIframeHeight() {
+    var iframe = document.getElementById('paperframe');
+    iframe.style.height = (window.innerHeight - 150) + 'px';
+  }
 
+  // Set iframe height on load
+  window.onload = setIframeHeight;
+
+  // Set iframe height on resize
+  window.onresize = setIframeHeight;
+</script>
 <!--Make the cookies to be able to appear as id-->
 <script>
 const cookieToElementMap = {
