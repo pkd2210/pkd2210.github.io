@@ -13,8 +13,11 @@
     #content {
         display: none;
     }
-</style>
 
+    #admin {
+        display: none;
+    }
+</style>
 <script>
 if (document.cookie) {
 document.write("<style>#content {display: block;}</style>")
@@ -109,6 +112,9 @@ cookies.forEach(cookie => {
         if (element) {
             element.innerHTML = 'שלום, ' + value;
         }
+        if (element == admin) {
+            document.write("<style>#admin {display: block;}</style>")
+        }
     }
 });
 
@@ -126,6 +132,6 @@ window.location.href = "/index.html";
 </script>
 </form>
 <a style="color: white; position: fixed; left: 0; bottom: 0; opacity:0.5" href="mailto:pelegu09@hhds.org.il">לפניות, בעיות והצתרפות לצוות העיתון<br>pelegu09@hhds.org.il</a>
-<a style="color: white; position: fixed; right: 0; bottom: 0; opacity:0.5" href="/admin">לניהול האתר</a>
+<a id="admin" style="color: white; position: fixed; right: 0; bottom: 0; opacity:0.5" href="/admin">לניהול האתר</a>
 </body>
 </html>
