@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--היי, מה את/ה עושה כאן?
+
+
+
+
+
+
+
+-->
+<html lang="en">
+<style>
+    #content {
+        display: none;
+    }
+</style>
+
+<script>
+if (document.cookie) {
+document.write("<style>#content {display: block;}</style>")
+}
+else {
+location.replace("/");
+}
+</script>
+<style>
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+  direction: rtl; /* Right to left direction */
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Style the links inside the navigation bar */
+.topnav span {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+    iframe {
+      flex-grow: 1; /* Ensures the iframe takes up the remaining height */
+      width: 100%;
+      border: none;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>העיתון הדמוקרטי - פנו אלינו</title>
+</head>
+
+<body id="content" style="text-align: center; background-color: #0F4C81; scroll-behavior: smooth">
+<div style="position: fixed;width: 99%" class="topnav">
+  <a href="/paper">בית</a>
+  <a href="/paper/about">מי אנחנו</a>
+  <a href="/paper/contact">פנו אלינו</a>
+  <a style="float: left;" onClick="JavaScript:deleteCookies()">התנתק</a>
+  <span style="float: left;" id="name"></span>
+</div><br id="home"><br><br>
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSen_mbdomcvH-PCwPJh_yFZ0NfssAWpeZAqCf2GKBiCmU8S0w/viewform?embedded=true" width="640" height="500" frameborder="0" marginheight="0" marginwidth="0">בטעינה…</iframe>
+
+<!--Make the cookies to be able to appear as id-->
+<script>
+const cookieToElementMap = {
+    'name': 'name'
+};
+
+const cookies = document.cookie.split(';');
+cookies.forEach(cookie => {
+    const [name, value] = cookie.trim().split('=');
+
+    if (cookieToElementMap[name]) {
+        console.log(`${name.charAt(0).toUpperCase() + name.slice(1)}:`, value);
+
+        const elementId = cookieToElementMap[name];
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.innerHTML = 'שלום, ' + value;
+        }
+    }
+});
+
+</script>
+<!--Add the dissconect button-->
+<script>
+function deleteCookies() {
+event.preventDefault();
+document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+document.cookie = "school=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+document.cookie = "rule=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+window.location.href = "/index.html";
+}
+</script>
+</form>
+<a style="color: white; position: fixed; left: 0; bottom: 0; opacity:0.5" href="mailto:pelegu09@hhds.org.il">לפניות, בעיות והצתרפות לצוות העיתון<br>pelegu09@hhds.org.il</a>
+<a style="color: white; position: fixed; right: 0; bottom: 0; opacity:0.5" href="/admin">לניהול האתר</a>
+</body>
+</html>

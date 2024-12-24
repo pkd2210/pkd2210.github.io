@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--היי, מה את/ה עושה כאן?
+
+
+
+
+
+
+
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>התחברות לתוכנות בעזרת משוב</title>
+</head>
+<body style="text-align: center; align-items: center; background-color: #0F4C81">
+<script>
+if (document.cookie) {
+location.replace("/paper");
+}
+</script>
+<!--    <h2>פרטים:</h2>
+    <pre id="user-info"></pre>
+-->
+    <h1 style="color: white">התחברות לעיתון</h1>
+	<h5 style="opacity: 0.25; color: white">נא להשתמש בחשבון משוב</h5>
+    <form id="login-form">
+        <label for="username" style="color: white">:שם משתמש או תעודת זהות</label><br>
+        <input type="text" id="username" name="username" required><br>
+		<label for="password" style="color: white">:סיסמה</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+		<a style="color: white" target="_blank" href="https://web.mashov.info/students/recover?semel=759399">שכחת סיסמה או מעולם לא היה לך סיסמה</a><br>
+		<button value="התחבר" type="submit" style="background-color: #1b86e4; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);">התחבר</button>
+		</form>
+
+
+
+<script>
+document.getElementById('login-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('http://localhost:5000/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+        const userInfoElement = document.getElementById('user-info');
+
+        if (response.ok) {
+			if (data.rule == "4") {
+				const currentDate = new Date();
+				currentDate.setFullYear(currentDate.getFullYear() + 1);
+				const expires = currentDate.toUTCString();
+				document.cookie = `id=${data.id}; path=/; expires=${expires}`;
+				document.cookie = `name=${data.name}; path=/; expires=${expires}`;
+				document.cookie = `school=${data.school}; path=/; expires=${expires}`;
+				document.cookie = `rule=${data.rule}; path=/; expires=${expires}`;
+				location.replace("paper");
+				userInfoElement.textContent = `Your id is: ${data.id}\nYour name is: ${data.name}\nYour school is: ${data.school}`;
+			}
+			else {
+			alert(`אין לך אישור להכנס לאתר זה\nאם זה תקלה נא לפנות לפלג\npelegu09@hhds.org.il`);
+			}
+        } else {
+            alert(`משתמש לא מאושר\nאם זה תקלה נא לפנות לפלג\npelegu09@hhds.org.il`);
+        }
+    } catch (error) {
+        document.getElementById('user-info').textContent = `Network error: ${error.message}`;
+    }
+});
+
+</script>
+<a style="color: white; position: fixed; left: 0; bottom: 0; opacity:0.5" href="mailto:pelegu09@hhds.org.il">לפניות, בעיות והצתרפות לצוות העיתון<br>pelegu09@hhds.org.il</a>
+</body>
+</html>
