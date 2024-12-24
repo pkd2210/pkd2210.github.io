@@ -17,7 +17,7 @@
 <body style="text-align: center; align-items: center; background-color: #0F4C81">
 <script>
 if (document.cookie) {
-location.replace("https://bookish-zebra-xvvr9jqjw543p996-5000.app.github.dev/user");
+location.replace("/paper");
 }
 </script>
 <!--    <h2>פרטים:</h2>
@@ -44,7 +44,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('http://localhost:5000/user', {
+        const response = await fetch('https://bookish-zebra-xvvr9jqjw543p996-5000.app.github.dev/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
