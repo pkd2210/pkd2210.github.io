@@ -8,4 +8,26 @@
     <span style="float: left;" id="name"></span>
     hi
   </div><br id="home"><br><br>
+
+
+  <script>
+    const cookieToElementMap = {
+        'name': 'name'
+    };
+    const cookies = document.cookie.split(';');
+    cookies.forEach(cookie => {
+        const [name, value] = cookie.trim().split('=');
+        if (cookieToElementMap[name]) {
+            console.log(`${name.charAt(0).toUpperCase() + name.slice(1)}:`, value);
+            const elementId = cookieToElementMap[name];
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = 'שלום, ' + value;
+            }
+            if (value == "admin") {
+                document.write("<style>#admin {display: block;}</style>")
+            }
+        }
+    });
+  </script>
 </div>
