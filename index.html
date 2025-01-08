@@ -17,7 +17,9 @@
 <body style="text-align: center; align-items: center; background-color: #0F4C81">
 <script>
 if (document.cookie) {
-location.replace("/paper");
+if (document.cookie.includes("name")) {
+    location.replace("/paper");
+}
 }
 </script>
 <!--    <h2>פרטים:</h2>
@@ -35,6 +37,15 @@ location.replace("/paper");
 		<a style="color: white" target="_blank" href="https://web.mashov.info/students/recover?semel=759399">שכחת סיסמה או מעולם לא היה לך סיסמה</a><br>
 		<button value="התחבר" type="submit" style="background-color: #1b86e4; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);">התחבר</button>
 		</form>
+        <a style="color: white" id="guest-logon" onclick="guestLogin()">התחבר כאורח</a>
+        <script>
+            function guestLogin() {
+                const currentDate = new Date();
+                currentDate.setFullYear(currentDate.getFullYear() + 1);
+                const expires = currentDate.toUTCString();
+                document.cookie = `name=אורח; path=/; expires=${expires}`;
+                location.replace("paper");
+            }
 
 
 
@@ -58,7 +69,6 @@ document.getElementById('login-form').addEventListener('submit', async function 
         const userInfoElement = document.getElementById('user-info');
 
         if (response.ok) {
-			if (data.rule == "4") {
 				const currentDate = new Date();
 				currentDate.setFullYear(currentDate.getFullYear() + 1);
 				const expires = currentDate.toUTCString();
@@ -69,10 +79,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
 				location.replace("paper");
 				userInfoElement.textContent = `Your id is: ${data.id}\nYour name is: ${data.name}\nYour school is: ${data.school}`;
 			}
-			else {
-			alert(`אין לך אישור להכנס לאתר זה\nאם זה תקלה נא לפנות לפלג\npelegu09@hhds.org.il`);
-			}
-        } else {
+            else {
             alert(`משתמש לא מאושר\nאם זה תקלה נא לפנות לפלג\npelegu09@hhds.org.il`);
         }
     } catch (error) {
