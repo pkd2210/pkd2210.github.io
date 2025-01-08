@@ -1,95 +1,96 @@
 <!DOCTYPE html>
-<!--היי, מה את/ה עושה כאן?
-
-
-
-
-
-
-
--->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>התחברות לתוכנות בעזרת משוב</title>
-</head>
-<body style="text-align: center; align-items: center; background-color: #0F4C81">
-<script>
-if (document.cookie) {
-if (document.cookie.includes("name")) {
-    location.replace("/paper");
-}
-}
-</script>
-<!--    <h2>פרטים:</h2>
-    <pre id="user-info"></pre>
--->
-    <h1 style="color: white">התחברות לעיתון</h1>
-	<h5 style="opacity: 0.25; color: white">נא להשתמש בחשבון משוב</h5>
-    <form id="login-form">
-        <label for="username" style="color: white">:שם משתמש או תעודת זהות</label><br>
-        <input type="text" id="username" name="username" required><br>
-		<label for="password" style="color: white">:סיסמה</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-	    <label for="password" style="color: white">:אני מאשר/ת שאני חבר/ת קהילת בית הספר הדמוקרטי</label><br>
-        <input type="checkbox" required><br><br>
-        <a href="#" style="color: white" id="guestLogin" onclick="guestLogin()">התחבר כאורח</a><br>
-		<a style="color: white" target="_blank" href="https://web.mashov.info/students/recover?semel=759399">שכחת סיסמה או מעולם לא היה לך סיסמה</a><br>
-		<button value="התחבר" type="submit" style="background-color: #1b86e4; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);">התחבר</button>
-		</form>
-
-        <script>
-            function guestLogin() {
-                const currentDate = new Date();
-                currentDate.setFullYear(currentDate.getFullYear() + 1);
-                const expires = currentDate.toUTCString();
-                document.cookie = `name=אורח; path=/; expires=${expires}`;
-                location.replace("paper");
-            }
-        </script>
-
-
-
-<script>
-document.getElementById('login-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    try {
-        const response = await fetch(' https://71eb-77-127-84-233.ngrok-free.app/user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password })
-        });
-
-        const data = await response.json();
-        const userInfoElement = document.getElementById('user-info');
-
-        if (response.ok) {
-				const currentDate = new Date();
-				currentDate.setFullYear(currentDate.getFullYear() + 1);
-				const expires = currentDate.toUTCString();
-				document.cookie = `id=${data.id}; path=/; expires=${expires}`;
-				document.cookie = `name=${data.name}; path=/; expires=${expires}`;
-				document.cookie = `school=${data.school}; path=/; expires=${expires}`;
-				document.cookie = `rule=${data.rule}; path=/; expires=${expires}`;
-				location.replace("paper");
-				userInfoElement.textContent = `Your id is: ${data.id}\nYour name is: ${data.name}\nYour school is: ${data.school}`;
-			}
-            else {
-            alert(`משתמש לא מאושר\nאם זה תקלה נא לפנות לפלג\npelegu09@hhds.org.il`);
-        }
-    } catch (error) {
-        document.getElementById('user-info').textContent = `Network error: ${error.message}`;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>העיתון הדמוקרטי - בית</title>
+  <style>
+    #content {
+        display: none;
     }
-});
-
-</script>
-<a style="color: white; position: fixed; left: 0; bottom: 0; opacity:0.5" href="mailto:pelegu09@hhds.org.il">לפניות, בעיות והצתרפות לצוות העיתון<br>pelegu09@hhds.org.il</a>
+    #admin {
+        display: none;
+    }
+    .topnav {
+      background-color: #333;
+      overflow: hidden;
+      direction: rtl; /* Right to left direction */
+    }
+    .topnav a {
+      float: right;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .topnav span {
+      float: right;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    iframe {
+      flex-grow: 1; /* Ensures the iframe takes up the remaining height */
+      width: 100%;
+      border: none;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body id="content" style="text-align: center; background-color: #0F4C81; scroll-behavior: smooth">
+  <div id="nav-placeholder"></div>
+  <iframe id="paperframe" src="/paper/paper.pdf#toolbar=0" width="100%"></iframe>
+  <script>
+    function setIframeHeight() {
+      var iframe = document.getElementById('paperframe');
+      iframe.style.height = (window.innerHeight - 50) + 'px';
+    }
+    window.onload = setIframeHeight;
+    window.onresize = setIframeHeight;
+  </script>
+  <script>
+    const cookieToElementMap = {
+        'name': 'name'
+    };
+    const cookies = document.cookie.split(';');
+    cookies.forEach(cookie => {
+        const [name, value] = cookie.trim().split('=');
+        if (cookieToElementMap[name]) {
+            console.log(`${name.charAt(0).toUpperCase() + name.slice(1)}:`, value);
+            const elementId = cookieToElementMap[name];
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = 'שלום, ' + value;
+            }
+            if (value == "admin") {
+                document.write("<style>#admin {display: block;}</style>")
+            }
+        }
+    });
+  </script>
+  <script>
+    function deleteCookies() {
+      event.preventDefault();
+      document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "school=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "rule=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "/";
+    }
+  </script>
+  <a style="color: white; position: fixed; left: 0; bottom: 0; opacity:0.5" href="mailto:pelegu09@hhds.org.il">לפניות, בעיות והצתרפות לצוות העיתון<br>pelegu09@hhds.org.il</a>
+  <a id="admin" style="color: white; position: fixed; right: 0; bottom: 0; opacity:0.5" href="/admin">לניהול האתר</a>
+  <script>
+    $(function(){
+      $("#nav-placeholder").load("/nav.html");
+    });
+  </script>
 </body>
 </html>
