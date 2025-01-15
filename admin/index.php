@@ -55,7 +55,21 @@ cookies.forEach(cookie => {
 </body>
  <?php
     if (isset($_POST['submit'])) {
-		$uploadDir = __DIR__ . '/../paper/';
+        // Handle the uploaded file
+        if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+            $uploadedFileTmp = $_FILES['file']['tmp_name']; // Temp file path
+            $uploadedFileDest = $uploadDir . 'paper.pdf'; // Destination for uploaded file
+
+            // Move uploaded file and rename it
+            if (move_uploaded_file($uploadedFileTmp, $uploadedFileDest)) {
+                echo "<p style='color: green;'>העיתון החדש הועלה בהצלחה</p>";
+            } else {
+                echo "<p style='color: red;'>Error uploading new file.</p>";
+            }
+        } else {
+            echo "<p style='color: red;'>No file uploaded or an error occurred.</p>";
+        }
+        $uploadDir = __DIR__ . '/../paper/';
         $archiveDir = $uploadDir . 'archive/'; // Archive directory
 
         // Ensure directories exist
@@ -73,21 +87,6 @@ cookies.forEach(cookie => {
                 echo "<p style='color: red;'>Error archiving current file.</p>";
                 exit;
             }
-        }
-
-        // Handle the uploaded file
-        if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-            $uploadedFileTmp = $_FILES['file']['tmp_name']; // Temp file path
-            $uploadedFileDest = $uploadDir . 'paper.pdf'; // Destination for uploaded file
-
-            // Move uploaded file and rename it
-            if (move_uploaded_file($uploadedFileTmp, $uploadedFileDest)) {
-                echo "<p style='color: green;'>העיתון החד הועלה בהצלחה</p>";
-            } else {
-                echo "<p style='color: red;'>Error uploading new file.</p>";
-            }
-        } else {
-            echo "<p style='color: red;'>No file uploaded or an error occurred.</p>";
         }
     }
     ?>
